@@ -17,7 +17,7 @@ def trainCARAF(data_loader_dict, optimizer_config, cuda, args, iteration, one_su
     
     log_dir = "log2s"
     os.makedirs(log_dir, exist_ok=True)
-    log_file = os.path.join(log_dir, f"test_acc_subject_{one_subject}seed3.txt")
+    log_file = os.path.join(log_dir, f"test_acc_{args.dataset_name}_subject_{one_subject}.txt")
     
     with open(log_file, 'w') as f:
         f.write(f"主体 {one_subject} 的测试准确率记录\n")
@@ -148,7 +148,7 @@ def trainCARAF(data_loader_dict, optimizer_config, cuda, args, iteration, one_su
                 best_epoch = epoch
                 best_model_state = copy.deepcopy(preTrainModel.state_dict())
                 
-                model_path = f"best_model_subject_{one_subject}.pth"
+                model_path = f"best_model_{args.dataset_name}_subject_{one_subject}.pth"
                 torch.save({
                     'epoch': epoch,
                     'model_state_dict': preTrainModel.state_dict(),

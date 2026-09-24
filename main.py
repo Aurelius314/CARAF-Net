@@ -39,14 +39,15 @@ if __name__ == '__main__':
     parser.add_argument("--subjects", type=int, choices=[15], default=15, help="the number of all subject")
     parser.add_argument("--dim", type=int, default=310, help="dim of input")
     parser.add_argument("--input_dim", type=int, default=310, help="input dim is the same with sample's last dim")
-    parser.add_argument("--lr", type=int, default=5e-4, help="epoch of calModel")
+    parser.add_argument("--lr", type=float, default=5e-4, help="learning rate")
+    parser.add_argument("--weight_decay", type=float, default=0.0005, help="weight decay")
     parser.add_argument('--number_of_source', type=int, default=14,
                     help='Number of source subjects')
     
     args = parser.parse_args()
     args.source_subjects = args.subjects-1
-    args.seed3_path = "/home/CARAF/EEG3/"
-    args.seed4_path = "/home/CARAF/eeg_feature_smooth/"
+    args.seed3_path = "{data_path}/SEED/"
+    args.seed4_path = "{data_path}/SEED-IV/"
     if cuda:
         args.num_workers_train =2
         args.num_workers_test = 2
@@ -58,7 +59,7 @@ if __name__ == '__main__':
         args.cls_classes = 3
         args.time_steps = 30
         args.batch_size = 32 
-        args.epoch_ = 100 
+        args.epoch = 100 
     elif args.dataset_name == "seed4":
         args.path = args.seed4_path
         args.cls_classes = 4
@@ -67,6 +68,7 @@ if __name__ == '__main__':
         args.epoch = 200 
     else:
         print("need to define the input dataset")
+    args.epoch_preTraining = args.epoch
         
     cuda = torch.cuda.is_available()
     if cuda:
